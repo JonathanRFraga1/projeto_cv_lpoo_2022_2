@@ -1,18 +1,61 @@
 package br.edu.ifsul.cc.lpoo.cv.model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-public class Agenda {
+@Entity
+@Table(name = "tb_agenda")
+public class Agenda implements Serializable {
+    
+    @Id
+    @SequenceGenerator(name = "seq_agenda", sequenceName = "seq_agenda_id", allocationSize = 1)
+    @GeneratedValue(generator = "seq_agenda", strategy = GenerationType.SEQUENCE)
     private int id;
+    
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar data_inicio;
+    
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar data_fim;
+    
+    @Column(nullable = false, length = 200)
     private String observacao;
+    
+    @ManyToOne
+    @JoinColumn(name = "med_pessoa_cpf", nullable = false)
     private Medico medico;
+    
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Status status;
+    
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private TipoProduto tipo_produto;
+    
+    @ManyToOne
+    @JoinColumn(name = "func_pessoa_cpf", nullable = false)
     private Funcionario funcionario;
-    private List<Cliente> clientes;
+    
+    @ManyToOne
+    @JoinColumn(name = "cli_pessoa_cpf", nullable = false)
+    private Cliente cliente;
 
     public Agenda() {
 
@@ -82,11 +125,11 @@ public class Agenda {
         this.funcionario = funcionario;
     }
 
-    public List<Cliente> getClientes() {
-        return clientes;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setClientes(List<Cliente> clientes) {
-        this.clientes = clientes;
+    public void setClientes(Cliente cliente) {
+        this.cliente = cliente;
     }
 }

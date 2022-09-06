@@ -1,17 +1,52 @@
 package br.edu.ifsul.cc.lpoo.cv.model;
 
+import java.io.Serializable;
 import java.util.Calendar;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-public abstract class Pessoa {
+@Entity
+@Table(name = "tb_pessoa")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "tipo")
+public abstract class Pessoa implements Serializable {
+    
+    @Id
     private String cpf;
+    
+    @Column(nullable = false, length = 50)
     private String rg;
+    
+    @Column(nullable = false, length = 100)
     private String nome;
+    
+    @Column(nullable = false, length = 100)
     private String senha;
+    
+    @Column(nullable = false, length = 11)
     private String numero_celular;
+    
+    @Column(nullable = false, length = 100)
     private String email;
+    
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar data_nascimento;
+    
+    @Column(nullable = false, length = 100)
     private String cep;
+    
+    @Column(nullable = false, length = 100)
     private String endereco;
+    
+    @Column(nullable = false, length = 100)
     private String complemento;
 
     public Pessoa() {
